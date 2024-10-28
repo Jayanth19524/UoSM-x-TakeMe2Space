@@ -7,7 +7,7 @@
         "lux_max": 500000
     },
     "Model": {
-        "model_path": "saved_model/model.tflite"
+        "model_path": "pretrained_model/model.tflite"
     },
     "Inference": {
         "output_path": "output",

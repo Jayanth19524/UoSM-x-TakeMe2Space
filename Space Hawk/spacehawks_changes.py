@@ -174,38 +174,6 @@ if __name__ == "__main__":
         print(f"Failed to load model: {e}")
         exit(1)
     frame = capture_image(camera_port)
+    inference(interpreter, frame, output_path, img_size, 0)
     index = 0
-    try:
-        while True:
-            try:
-                # Receive message from ZeroMQ
-                message = subscriber.recv()
-                obc_data = OBC_TlmData(message)
-
-                # Check LUX value for image capture and inference
-                lux_value = obc_data.al_lux
-                print(f"Received LUX value: {lux_value}")
-
-                if lux_min <= lux_value <= lux_max:
-                    print("LUX value is within range. Capturing image...")
-                    # Capture an image
-                    frame = capture_image(camera_port)
-                    if frame is None:
-                        continue
-
-                    # Perform inference and save the result
-                    inference(interpreter, frame, output_path, img_size, index)
-                    index += 1
-
-                else:
-                    print("LUX value is out of range, skipping image capture.")
-
-            except ValueError as e:
-                print(f"ValueError encountered: {e}")
-                continue
-
-            time.sleep(capture_interval)
-
-    except KeyboardInterrupt:
-        print("Keyboard interrupt detected. Exiting gracefully.")
-
+    
